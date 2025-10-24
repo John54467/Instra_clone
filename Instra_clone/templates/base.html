@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #262626;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 12px 16px;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 975px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #262626;
+        }
+
+        .search-bar {
+            width: 268px;
+            padding: 8px 16px;
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            text-align: left;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            text-decoration: none;
+            color: #262626;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 975px;
+            margin: 88px auto 0;
+            padding: 0 16px;
+            display: flex;
+            gap: 32px;
+        }
+
+        /* Stories */
+        .stories-container {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .stories {
+            display: flex;
+            gap: 16px;
+        }
+
+        .story {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-avatar {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #fdf497, #fdf497, #fd5949, #d6249f, #285AEB);
+            padding: 2px;
+        }
+
+        .story-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .story-username {
+            font-size: 12px;
+            color: #262626;
+        }
+
+        /* Posts */
+        .posts {
+            flex: 1;
+            max-width: 614px;
+        }
+
+        .post {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .post-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .post-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .post-username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-more {
+            margin-left: auto;
+            font-size: 20px;
+        }
+
+        .post-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .post-actions {
+            padding: 12px 16px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .post-action {
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .post-likes {
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .post-caption {
+            padding: 0 16px;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .post-comments {
+            padding: 0 16px;
+            color: #8e8e8e;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            padding: 0 16px 12px;
+            color: #8e8e8e;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .add-comment {
+            padding: 12px 16px;
+            border-top: 1px solid #efefef;
+            display: flex;
+            gap: 12px;
+        }
+
+        .comment-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .post-button {
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 319px;
+            position: sticky;
+            top: 88px;
+            height: fit-content;
+        }
+
+        .profile-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0;
+        }
+
+        .profile-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-name {
+            color: #8e8e8e;
+            font-size: 14px;
+        }
+
+        .switch-button {
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .suggestions {
+            margin-top: 16px;
+        }
+
+        .suggestions-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .suggestions-title {
+            color: #8e8e8e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .see-all {
+            font-size: 12px;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .suggestion-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .suggestion-info {
+            flex: 1;
+        }
+
+        .suggestion-username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .suggestion-reason {
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+
+        .follow-button {
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 24px 0;
+            text-align: center;
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .container {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                display: none;
+            }
+            
+            .container {
+                margin-top: 60px;
+            }
+        }
+    </style>
+</head>
+<script>
+    // Defensive shim: block registration of 'unload' event listeners on non-admin pages.
+    // Some Django admin scripts attempt to register unload handlers which modern browsers
+    // may block via Permissions-Policy and cause console violations. This prevents that
+    // without editing Django's admin JS.
+    try {
+        if (!window.location.pathname.startsWith('/admin')) {
+            (function(){
+                const _add = EventTarget.prototype.addEventListener;
+                EventTarget.prototype.addEventListener = function(type, listener, options) {
+                    if (type === 'unload') return; // silently ignore unload listeners
+                    return _add.call(this, type, listener, options);
+                };
+                // optional restore function for debugging
+                window.__restoreAddEventListener = function(){ EventTarget.prototype.addEventListener = _add };
+            })();
+        }
+    } catch (e) {
+        // ignore in very old browsers
+        console.debug('unload-shim skipped', e);
+    }
+</script>
+</head>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">Instagram</a>
+            <input id="search" name="q" type="text" class="search-bar" placeholder="Search">
+            <div class="nav-icons">
+                <a href="/home" class="nav-icon">🏠</a>
+                <a href="#" class="nav-icon">✉️</a>
+                 <a href="/newpost" class="nav-icon">➕</a>
+                <a href="#" class="nav-icon">🔍</a>
+                <a href="#" class="nav-icon">❤️</a>
+                <a href="#" class="nav-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+        {% block content %}
+
+        {% endblock %}
